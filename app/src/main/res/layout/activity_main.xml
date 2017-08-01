@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#282e33"
     android:orientation="horizontal">
 
-    <com.github.windsekirun.sectionindexer.IndexerListView
+    <com.github.windsekirun.koreanindexer.KoreanIndexerListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#879cac"
-        android:dividerHeight="1dp"/>
-
-    <LinearLayout
-        android:id="@+id/sideIndex"
-        android:layout_width="17dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/bg_align_roll"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"/>
-</FrameLayout>
+        android:dividerHeight="0px"
+        android:divider="@android:color/transparent"
+        app:indexerBackground="#ffffff"
+        app:indexerRadius="60"
+        app:indexerTextColor="#000000"
+        app:indexerWidth="20"
+        app:sectionBackground="#ffffff"
+        app:sectionDelay="1000"
+        app:sectionTextColor="#000000"
+        app:useSection="true" />
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="KoreanIndexerListView">
+        <attr name="indexerBackground" format="color" />
+        <attr name="sectionBackground" format="color" />
+        <attr name="indexerTextColor" format="color" />
+        <attr name="sectionTextColor" format="color" />
+        <attr name="indexerRadius" format="float" />
+        <attr name="indexerWidth" format="integer" />
+        <attr name="sectionDelay" format="integer" />
+        <attr name="useSection" format="boolean" />
+    </declare-styleable>
+</resources>
