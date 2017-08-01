@@ -1,6 +1,8 @@
 # KoreanIndexerListView
 [![](https://jitpack.io/v/WindSekirun/KoreanIndexerListView.svg)](https://jitpack.io/#WindSekirun/KoreanIndexerListView)
 
+![](https://i0.wp.com/blog.uzuki.live/wp-content/uploads/2017/08/pjimage.jpg?resize=768%2C768&ssl=1)
+
 본 라이브러리는 한글이 사용되는 데이터 환경에서 SectionIndexer를 좀 더 쉽게 사용할 수 있게 하는 리스트뷰 위젯으로, 아래의 기능을 포함합니다.
 
 * SectionIndexer
@@ -11,6 +13,8 @@
     * 영문
     * 숫자
     * 특수문자 
+    
+본 코드에 대한 설명은 개인 블로그인 PyxisPub에서 [안드로이드 ListView + SectionIndexer](https://blog.uzuki.live/android-custom-listview-sectionindexr/) 포스트로 보실 수 있습니다.
 
 ## 사용법
 
