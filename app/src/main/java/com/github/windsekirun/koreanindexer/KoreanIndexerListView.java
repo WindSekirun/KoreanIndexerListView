@@ -207,8 +207,8 @@ public class KoreanIndexerListView extends ListView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
         float scaledWidth = indWidth * getDensity();
         leftPosition = this.getWidth() - this.getPaddingRight() - scaledWidth;
 
