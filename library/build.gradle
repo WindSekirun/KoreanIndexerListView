@@ -11,5 +11,5 @@ android {
 
 dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
-
+    compile 'com.android.support:recyclerview-v7:26.0.0'
 }

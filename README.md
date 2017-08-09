@@ -3,7 +3,7 @@
 
 ![](https://i0.wp.com/blog.uzuki.live/wp-content/uploads/2017/08/pjimage.jpg?resize=768%2C768&ssl=1)
 
-본 라이브러리는 한글이 사용되는 데이터 환경에서 SectionIndexer를 좀 더 쉽게 사용할 수 있게 하는 리스트뷰 위젯으로, 아래의 기능을 포함합니다.
+본 라이브러리는 한글이 사용되는 데이터 환경에서 SectionIndexer를 좀 더 쉽게 사용할 수 있게 하는 리스트뷰, 리사이클뷰 위젯으로, 아래의 기능을 포함합니다.
 
 * SectionIndexer
 * 알파벳 인덱스 뷰
@@ -12,7 +12,8 @@
     * 한글 (초성)
     * 영문
     * 숫자
-    * 특수문자 
+    * 특수문자
+* RecyclerView에 대한 지원
     
 본 코드에 대한 설명은 개인 블로그인 PyxisPub에서 [안드로이드 ListView + SectionIndexer](https://blog.uzuki.live/android-custom-listview-sectionindexr/) 포스트로 보실 수 있습니다.
 
@@ -54,6 +55,27 @@ dependencies {
         app:sectionBackground="#ffffff"
         app:sectionDelay="1000"
         app:sectionTextColor="#000000"
+        app:indexerMargin="0"
+        app:useSection="true" />
+````
+
+````XML
+<com.github.windsekirun.koreanindexer.KoreanIndexerRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:clipChildren="false"
+        android:layout_height="match_parent"
+        android:dividerHeight="0px"
+        android:divider="@android:color/transparent"
+        <!-- 아래부터 필수값이 아님 -->
+        app:indexerBackground="#ffffff"
+        app:indexerRadius="60"
+        app:indexerTextColor="#000000"
+        app:indexerWidth="20"
+        app:sectionBackground="#ffffff"
+        app:sectionDelay="1000"
+        app:sectionTextColor="#000000"
+        app:indexerMargin="0"
         app:useSection="true" />
 ````
 
@@ -61,7 +83,7 @@ dependencies {
 각 XML 필드에 대한 설명은 [여기](https://github.com/WindSekirun/KoreanIndexerListView/blob/master/library/src/main/java/com/github/windsekirun/koreanindexer/KoreanIndexerListView.java#L95) 에서 보실 수 있습니다. 
 
 ### 액티비티에 구현
-SectionIndexer 기능을 활성화하기 위하여 SectionIndexer 의 구현이 필요하나 이 라이브러리는 KoreanIndexerListView.KoreanIndexerAdapter<String> 로 대신할 수 있습니다.
+SectionIndexer 기능을 활성화하기 위하여 SectionIndexer 의 구현이 필요하나 이 라이브러리는 KoreanIndexerListView.KoreanIndexerAdapter<T> 로 대신할 수 있습니다.
 
 ````Java
 AlphabetAdapter adapter = new AlphabetAdapter();
@@ -104,10 +126,46 @@ public class AlphabetAdapter extends KoreanIndexerListView.KoreanIndexerAdapter<
     }
 ````
 
+````Java
+AlphabetAdapter adapter = new AlphabetAdapter();
+LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+recyclerView.setKeywordList(list);
+recyclerView.setLayoutManager(layoutManager);
+recyclerView.setAdapter(adapter);
+
+public class AlphabetAdapter extends KoreanIndexerRecyclerView.KoreanIndexerRecyclerAdapter<AlphabetAdapter.ViewHolder> {
+
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.txtName.setText(list.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder{
+            TextView txtName;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                txtName = itemView.findViewById(R.id.txtName);
+            }
+        }
+}
+````
+
 #### 주의
 
 * 동적으로 아이템을 추가할 경우에 대한 작동을 보증하지 않습니다.
-* **추후 Generic 기능이 활성화됩니다. 1.0.0에서는 String만 사용이 가능합니다.**
 
 ## 가져온 제 3자 코드
 본 리스트뷰 위젯 라이브러리는 빠른 개발을 위하여 아래의 코드를 수정하여 private static class로서 포함하였습니다.
@@ -139,4 +197,12 @@ limitations under the License.
 ```
 
 ## 업데이트 내역
+* 1.1.0 (2017. 08. 10.)
+ * 이슈 #1 #2 #3 해결
+ * 리사이클 뷰 지원 시작 (LinearLayoutManager, GridLayoutManager)
+ * 인덱서 텍스트의 상 / 하 마진 설정 값 추가
+ * 계산식 일부 보정
+ * Generic 정식 지원
+   * 단, setKeywordList 는 원할한 정렬을 위하여 String 형태로만 받습니다.
+   * setKeywordList 의 리스트와 Adapter에 실제 사용되는 리스트는 달라도 됩니다.
 * 1.0.0 (2017. 08. 02.) 첫 릴리즈

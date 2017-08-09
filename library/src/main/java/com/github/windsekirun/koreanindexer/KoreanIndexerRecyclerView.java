@@ -7,10 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -22,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
-public class KoreanIndexerListView extends ListView {
+public class KoreanIndexerRecyclerView extends RecyclerView {
     private Context context;
     private Handler listHandler = new Handler();
 
@@ -44,14 +46,14 @@ public class KoreanIndexerListView extends ListView {
     private Paint textPaint;
     private Paint sectionTextPaint;
 
-    public KoreanIndexerListView(Context context, AttributeSet attrs) {
+    public KoreanIndexerRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
 
         init(attrs);
     }
 
-    public KoreanIndexerListView(Context context, AttributeSet attrs, int defStyle) {
+    public KoreanIndexerRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
 
@@ -235,7 +237,7 @@ public class KoreanIndexerListView extends ListView {
         canvas.drawRoundRect(positionRect, radius, radius, backgroundPaint);
         indexSize = (this.getHeight() - this.getPaddingTop() - getPaddingBottom()) / sections.length;
 
-        textPaint.setTextSize(scaledWidth / 2);;
+        textPaint.setTextSize(scaledWidth / 2);
 
         for (int i = 0; i < sections.length; i++) {
             float x = leftPosition + (textPaint.getTextSize() / 2);
@@ -287,9 +289,9 @@ public class KoreanIndexerListView extends ListView {
                         int currentPosition = (int) Math.floor(y / indexSize);
                         section = sections[currentPosition];
                         showLetter = true;
-                        this.setSelection(((SectionIndexer) getAdapter()).getPositionForSection(currentPosition));
+                        this.getLayoutManager().scrollToPosition(((SectionIndexer) getAdapter()).getPositionForSection(currentPosition));
                     } catch (Exception e) {
-                        Log.v(KoreanIndexerListView.class.getSimpleName(),
+                        Log.v(KoreanIndexerRecyclerView.class.getSimpleName(),
                                 "Something error happened. but who ever care this exception? " + e.getMessage());
                     }
                 }
@@ -306,9 +308,9 @@ public class KoreanIndexerListView extends ListView {
                         int currentPosition = (int) Math.floor(y / indexSize);
                         section = sections[currentPosition];
                         showLetter = true;
-                        this.setSelection(((SectionIndexer) getAdapter()).getPositionForSection(currentPosition));
+                        this.getLayoutManager().scrollToPosition(((SectionIndexer) getAdapter()).getPositionForSection(currentPosition));
                     } catch (Exception e) {
-                        Log.v(KoreanIndexerListView.class.getSimpleName(),
+                        Log.v(KoreanIndexerRecyclerView.class.getSimpleName(),
                                 "Something error happened. but who ever care this exception? " + e.getMessage());
                     }
                 }
@@ -328,16 +330,12 @@ public class KoreanIndexerListView extends ListView {
         @Override
         public void run() {
             showLetter = false;
-            KoreanIndexerListView.this.invalidate();
+            KoreanIndexerRecyclerView.this.invalidate();
         }
     };
 
-    @SuppressWarnings("WeakerAccess")
-    public abstract static class KoreanIndexerAdapter<T> extends ArrayAdapter<T> implements SectionIndexer {
 
-        public KoreanIndexerAdapter(Context context, ArrayList<T> list) {
-            super(context, 0, list);
-        }
+    public abstract static class KoreanIndexerRecyclerAdapter<T extends ViewHolder> extends RecyclerView.Adapter<T> implements  SectionIndexer {
 
         @Override
         public Object[] getSections() {
@@ -427,7 +425,7 @@ public class KoreanIndexerListView extends ListView {
         private static Comparator<String> getComparator() {
             return new Comparator<String>() {
                 public int compare(String left, String right) {
-                    return OrderingByKorean.compare(left, right);
+                    return KoreanIndexerRecyclerView.OrderingByKorean.compare(left, right);
                 }
             };
         }
