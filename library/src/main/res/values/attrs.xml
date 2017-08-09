@@ -10,5 +10,6 @@
         <attr name="indexerWidth" format="integer" />
         <attr name="sectionDelay" format="integer" />
         <attr name="useSection" format="boolean" />
+        <attr name="indexerMargin" format="integer"/>
     </declare-styleable>
 </resources>

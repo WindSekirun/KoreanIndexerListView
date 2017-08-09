@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 "파파파파파파", "자차", "하하", "ABC", "BC", "C", "D", "F", "G", "I", "J", "K", "L",
                 "사자", "개구리", "노랑이", "초록이", "하양이", "차", "자동차", "M", "N", "O", "P",
                 "Q", "R", "S", "?", "!", "1", "2", "4");
+        add("가나다라", "4");
 
         AlphabetAdapter adapter = new AlphabetAdapter();
         listView.setKeywordList(list);

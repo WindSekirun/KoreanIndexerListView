@@ -32,6 +32,7 @@ public class KoreanIndexerListView extends ListView {
     private float radius;
     private int indWidth;
     private int delayMillis;
+    private int indexerMargin;
     private boolean useSection;
     private String section;
     private static String[] sections = new String[]{};
@@ -79,6 +80,7 @@ public class KoreanIndexerListView extends ListView {
         int indexerWidth = array.getInt(R.styleable.KoreanIndexerListView_indexerWidth, 20);
         int sectionDelay = array.getInt(R.styleable.KoreanIndexerListView_sectionDelay, 3 * 1000);
         boolean useSection = array.getBoolean(R.styleable.KoreanIndexerListView_useSection, true);
+        int indexerMargin = array.getInt(R.styleable.KoreanIndexerListView_indexerMargin, 0);
 
         setIndexerBackgroundColor(indexerBackground);
         setSectionBackgroundColor(sectionBackground);
@@ -88,8 +90,19 @@ public class KoreanIndexerListView extends ListView {
         setIndexerWidth(indexerWidth);
         setSectionDelayMillis(sectionDelay);
         setUseSection(useSection);
+        setIndexerMargin(indexerMargin);
 
         array.recycle();
+    }
+
+    /**
+     * 인덱서 여백값 조정 (상, 하)
+     * [XML Field] indexerMargin
+     *
+     * @param margin 설정할 여백 값
+     */
+    public void setIndexerMargin(int margin) {
+        this.indexerMargin = indexerMargin;
     }
 
     /**
@@ -177,7 +190,7 @@ public class KoreanIndexerListView extends ListView {
      * <p>
      * 이 메소드에 넘겨지는 리스트 파라미터는 정렬 여부와 상관이 없습니다.
      * setAdapter() 전에 호출해주세요.
-     *
+     * <p>
      * 이 메소드에 넘겨지는 리스트 파라미터는 Generic를 지원하지 않습니다. 반드시 String 형태로 넣어주세요.
      *
      * @param keywordList 키워드 리스트
@@ -210,6 +223,8 @@ public class KoreanIndexerListView extends ListView {
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         float scaledWidth = indWidth * getDensity();
+        float scaledCompensation = indWidth * getDensity();
+        float indexerMargin = this.indexerMargin * getDensity();
         leftPosition = this.getWidth() - this.getPaddingRight() - scaledWidth;
 
         positionRect.left = leftPosition;
@@ -222,8 +237,11 @@ public class KoreanIndexerListView extends ListView {
 
         textPaint.setTextSize(scaledWidth / 2);
         for (int i = 0; i < sections.length; i++) {
-            canvas.drawText(sections[i].toUpperCase(), leftPosition + textPaint.getTextSize() / 2,
-                    getPaddingTop() + indexSize * (i + 1), textPaint);
+            float x = leftPosition + textPaint.getTextSize() / 2;
+            float calY = this.getHeight() - (scaledCompensation + (indexSize * i)) > 100 ? scaledCompensation + getPaddingTop()
+                    + indexerMargin + (indexSize * i) : scaledCompensation + getPaddingTop() + (indexSize * i);
+            Log.e("x to y", "(" + x + " to " + calY + ")");
+            canvas.drawText(sections[i].toUpperCase(), x, calY, textPaint);
         }
 
         sectionTextPaint.setTextSize(50 * getScaledDensity());
