@@ -178,6 +178,8 @@ public class KoreanIndexerListView extends ListView {
      * 이 메소드에 넘겨지는 리스트 파라미터는 정렬 여부와 상관이 없습니다.
      * setAdapter() 전에 호출해주세요.
      *
+     * 이 메소드에 넘겨지는 리스트 파라미터는 Generic를 지원하지 않습니다. 반드시 String 형태로 넣어주세요.
+     *
      * @param keywordList 키워드 리스트
      */
     public void setKeywordList(ArrayList<String> keywordList) {
