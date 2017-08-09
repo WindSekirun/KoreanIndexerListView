@@ -34,7 +34,7 @@ allprojects {
 *app/build.gradle*
 ```
 dependencies {
-    compile 'com.github.WindSekirun:KoreanIndexerListView:1.0.0'
+    compile 'com.github.WindSekirun:KoreanIndexerListView:1.1.0'
 }
 ```
 
@@ -198,11 +198,11 @@ limitations under the License.
 
 ## 업데이트 내역
 * 1.1.0 (2017. 08. 10.)
- * 이슈 #1 #2 #3 해결
- * 리사이클 뷰 지원 시작 (LinearLayoutManager, GridLayoutManager)
- * 인덱서 텍스트의 상 / 하 마진 설정 값 추가
- * 계산식 일부 보정
- * Generic 정식 지원
-   * 단, setKeywordList 는 원할한 정렬을 위하여 String 형태로만 받습니다.
-   * setKeywordList 의 리스트와 Adapter에 실제 사용되는 리스트는 달라도 됩니다.
+	* 이슈 #1 #2 #3 해결
+	* 리사이클 뷰 지원 시작 (LinearLayoutManager, GridLayoutManager)
+	* 인덱서 텍스트의 상 / 하 마진 설정 값 추가
+	* 계산식 일부 보정
+	* Generic 정식 지원
+		* 단, setKeywordList 는 원할한 정렬을 위하여 String 형태로만 받습니다.
+		* setKeywordList 의 리스트와 Adapter에 실제 사용되는 리스트는 달라도 됩니다.
 * 1.0.0 (2017. 08. 02.) 첫 릴리즈
