@@ -39,6 +39,8 @@ dependencies {
 ```
 
 ### XML에 위젯 추가
+
+#### ListView
 ````XML
 <com.github.windsekirun.koreanindexer.KoreanIndexerListView
         android:id="@+id/listView"
@@ -59,14 +61,13 @@ dependencies {
         app:useSection="true" />
 ````
 
+#### RecyclerView
 ````XML
 <com.github.windsekirun.koreanindexer.KoreanIndexerRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:clipChildren="false"
         android:layout_height="match_parent"
-        android:dividerHeight="0px"
-        android:divider="@android:color/transparent"
         <!-- 아래부터 필수값이 아님 -->
         app:indexerBackground="#ffffff"
         app:indexerRadius="60"
@@ -85,6 +86,7 @@ dependencies {
 ### 액티비티에 구현
 SectionIndexer 기능을 활성화하기 위하여 SectionIndexer 의 구현이 필요하나 이 라이브러리는 KoreanIndexerListView.KoreanIndexerAdapter<T> 로 대신할 수 있습니다.
 
+#### ListView
 ````Java
 AlphabetAdapter adapter = new AlphabetAdapter();
 listView.setKeywordList(list);
@@ -126,6 +128,7 @@ public class AlphabetAdapter extends KoreanIndexerListView.KoreanIndexerAdapter<
     }
 ````
 
+#### RecyclerView
 ````Java
 AlphabetAdapter adapter = new AlphabetAdapter();
 LinearLayoutManager layoutManager = new LinearLayoutManager(this);
