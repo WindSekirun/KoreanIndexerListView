@@ -224,6 +224,11 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
+
+        if (sections.length == 0) {
+            return;
+        }
+
         float scaledWidth = indWidth * getDensity();
         float scaledCompensation = indWidth * getDensity();
         float indexerMargin = this.indexerMargin * getDensity();
