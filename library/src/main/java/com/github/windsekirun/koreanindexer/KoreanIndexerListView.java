@@ -142,7 +142,7 @@ public class KoreanIndexerListView extends ListView {
      * @param colorInt 설정할 색상
      */
     public void setSectionTextColor(int colorInt) {
-        textPaint.setColor(colorInt);
+        sectionTextPaint.setColor(colorInt);
     }
 
     /**
