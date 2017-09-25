@@ -34,7 +34,7 @@ allprojects {
 *app/build.gradle*
 ```
 dependencies {
-    compile 'com.github.WindSekirun:KoreanIndexerListView:1.1.0'
+    compile 'com.github.WindSekirun:KoreanIndexerListView:1.1.5'
 }
 ```
 
@@ -200,6 +200,12 @@ limitations under the License.
 ```
 
 ## 업데이트 내역
+* 1.1.5 (2017. 09. 25.)
+        * 이슈 #4 #5 #6 해결
+	* 클릭 리스너 구현
+	  * ListView 는 AdpaterView.OnItemClickListener
+	  * RecyclerView 는 KoreanIndexerRecyclerView.OnItemClickListener
+	* 섹션 텍스트 중복 현상 해결
 * 1.1.0 (2017. 08. 10.)
 	* 이슈 #1 #2 #3 해결
 	* 리사이클 뷰 지원 시작 (LinearLayoutManager, GridLayoutManager)
