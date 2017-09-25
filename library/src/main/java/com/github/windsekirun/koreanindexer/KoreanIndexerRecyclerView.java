@@ -11,10 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.SectionIndexer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,6 +44,9 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
     private Paint sectionBackgroundPaint;
     private Paint textPaint;
     private Paint sectionTextPaint;
+    private GestureDetector mGesture;
+    private OnItemClickListener onItemClickListener;
+
 
     public KoreanIndexerRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -95,6 +97,34 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
         setIndexerMargin(indexerMargin);
 
         array.recycle();
+
+        mGesture = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                return detectClickScope(e);
+            }
+        });
+    }
+
+    private boolean detectClickScope(MotionEvent e) {
+        if (e.getAction() != MotionEvent.ACTION_DOWN)
+            return true;
+
+        View targetView = findChildViewUnder(e.getX(), e.getY());
+        int position = getChildAdapterPosition(targetView);
+
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(position);
+        }
+        return true;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     /**
@@ -144,7 +174,7 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
      * @param colorInt 설정할 색상
      */
     public void setSectionTextColor(int colorInt) {
-        textPaint.setColor(colorInt);
+        sectionTextPaint.setColor(colorInt);
     }
 
     /**
@@ -270,7 +300,6 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
     }
 
 
-
     private float getDensity() {
         return context.getResources().getDisplayMetrics().density;
     }
@@ -283,6 +312,7 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
+        mGesture.onTouchEvent(event);
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -340,7 +370,7 @@ public class KoreanIndexerRecyclerView extends RecyclerView {
     };
 
 
-    public abstract static class KoreanIndexerRecyclerAdapter<T extends ViewHolder> extends RecyclerView.Adapter<T> implements  SectionIndexer {
+    public abstract static class KoreanIndexerRecyclerAdapter<T extends ViewHolder> extends RecyclerView.Adapter<T> implements SectionIndexer {
 
         @Override
         public Object[] getSections() {

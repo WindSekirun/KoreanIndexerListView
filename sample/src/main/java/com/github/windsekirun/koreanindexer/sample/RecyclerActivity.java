@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.windsekirun.koreanindexer.KoreanIndexerListView;
 import com.github.windsekirun.koreanindexer.KoreanIndexerRecyclerView;
@@ -58,6 +59,12 @@ public class RecyclerActivity extends AppCompatActivity {
         AlphabetAdapter adapter = new AlphabetAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setKeywordList(list);
+        recyclerView.setOnItemClickListener(new KoreanIndexerRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(RecyclerActivity.this, "clicked -> " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }

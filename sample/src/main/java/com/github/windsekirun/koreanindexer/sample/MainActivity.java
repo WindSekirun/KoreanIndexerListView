@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.windsekirun.koreanindexer.KoreanIndexerListView;
 
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         AlphabetAdapter adapter = new AlphabetAdapter();
         listView.setKeywordList(list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, "clicked -> " + i, Toast.LENGTH_SHORT).show();
+            }
+        });
         listView.setAdapter(adapter);
     }
 

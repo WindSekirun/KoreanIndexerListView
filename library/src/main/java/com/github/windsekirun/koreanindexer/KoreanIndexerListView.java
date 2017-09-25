@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -43,6 +44,8 @@ public class KoreanIndexerListView extends ListView {
     private Paint sectionBackgroundPaint;
     private Paint textPaint;
     private Paint sectionTextPaint;
+    private GestureDetector mGesture;
+    private OnClickListener onClickListener;
 
     public KoreanIndexerListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,6 +96,26 @@ public class KoreanIndexerListView extends ListView {
         setIndexerMargin(indexerMargin);
 
         array.recycle();
+
+        mGesture = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                return detectClickScope(e);
+            }
+        });
+    }
+
+    private boolean detectClickScope(MotionEvent e) {
+        if (e.getAction() != MotionEvent.ACTION_DOWN)
+            return true;
+
+        int position = pointToPosition((int) e.getX(), (int) e.getY());
+
+        if (position != ListView.INVALID_POSITION) {
+            performItemClick(getChildAt(position - getFirstVisiblePosition()), position, getItemIdAtPosition(position));
+        }
+
+        return true;
     }
 
     /**
@@ -239,7 +262,7 @@ public class KoreanIndexerListView extends ListView {
         canvas.drawRoundRect(positionRect, radius, radius, backgroundPaint);
         indexSize = (this.getHeight() - this.getPaddingTop() - getPaddingBottom()) / sections.length;
 
-        textPaint.setTextSize(scaledWidth / 2);;
+        textPaint.setTextSize(scaledWidth / 2);
 
         for (int i = 0; i < sections.length; i++) {
             float x = leftPosition + (textPaint.getTextSize() / 2);
@@ -267,7 +290,6 @@ public class KoreanIndexerListView extends ListView {
     }
 
 
-
     private float getDensity() {
         return context.getResources().getDisplayMetrics().density;
     }
@@ -280,6 +302,7 @@ public class KoreanIndexerListView extends ListView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
+        mGesture.onTouchEvent(event);
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -423,7 +446,7 @@ public class KoreanIndexerListView extends ListView {
     }
 
     // this class come from http://reimaginer.tistory.com/entry/한글영어특수문자-순-정렬하는-java-compare-메서드-만들기
-    private static class OrderingByKorean {
+    public static class OrderingByKorean {
         private static final int REVERSE = -1;
         private static final int LEFT_FIRST = -1;
         private static final int RIGHT_FIRST = 1;
@@ -436,7 +459,7 @@ public class KoreanIndexerListView extends ListView {
             };
         }
 
-        private static int compare(String left, String right) {
+        public static int compare(String left, String right) {
 
             left = StringUtils.upperCase(left).replaceAll(" ", "");
             right = StringUtils.upperCase(right).replaceAll(" ", "");
